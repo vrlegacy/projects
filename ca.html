@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculator</title>
+  <style>body {
+    background-color: #121212;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+    margin: 0;
+  }
+  
+  .calculator {
+    width: 300px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    padding: 20px;
+  }
+  
+  .display {
+    background-color: #333;
+    padding: 20px;
+    font-size: 2rem;
+    text-align: right;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    min-height: 50px;
+  }
+  
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 20px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .btn:hover {
+    background-color: #666;
+  }
+  
+  .operator {
+    background-color: #f39c12;
+  }
+  
+  .operator:hover {
+    background-color: #e67e22;
+  }
+  
+  .equal {
+    grid-column: span 2;
+    background-color: #27ae60;
+  }
+  
+  .equal:hover {
+    background-color: #2ecc71;
+  }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div id="display" class="display"></div>
+    <div class="buttons">
+      <button class="btn operator" data-operation="C">C</button>
+      <button class="btn operator" data-operation="-">-</button>
+      <button class="btn operator" data-operation="*">*</button>
+      <button class="btn operator" data-operation="/">/</button>
+
+      <button class="btn number">7</button>
+      <button class="btn number">8</button>
+      <button class="btn number">9</button>
+      <button class="btn operator" data-operation="+">+</button>
+
+      <button class="btn number">4</button>
+      <button class="btn number">5</button>
+      <button class="btn number">6</button>
+      <button class="btn equal">=</button>
+
+      <button class="btn number">1</button>
+      <button class="btn number">2</button>
+      <button class="btn number">3</button>
+      <button class="btn number">0</button>
+      <button class="btn number">.</button>
+    </div>
+  </div>
+
+
+</body>
+<script>
+let primary = "";
+let secondory = "";
+let operation = undefined;
+
+const display = document.getElementById('display');
+const numberButtons = document.querySelectorAll('.number');
+const operationButtons = document.querySelectorAll('.operator');
+const equalButton = document.querySelector('.equal');
+
+function displayy(){
+  display.innerText = primary || secondory || '0' ;
+}
+function compute(){
+  a=parseFloat(secondory);
+  b=parseFloat(primary);
+  let result="";
+  switch(operation){
+    case '+': result=a+b;
+    break;
+
+    case '-': result= a-b;
+    break;
+
+    case '*': result= a*b;
+    break;
+
+    case '/': result= a/b;
+    break;
+
+    default: console.log("error")
+
+    
+  }
+  
+  primary=result.toFixed(4);
+  secondory="";
+  operation=undefined;
+  console.log(primary);
+  console.log(secondory);
+  console.log(operation);
+  displayy();
+}
+
+
+numberButtons.forEach((button)=>{
+  button.addEventListener("click",()=>{
+    primary+=button.innerText;
+    displayy();
+    console.log("primary value added")
+
+  })
+})
+
+operationButtons.forEach((operator)=>{
+  operator.addEventListener("click",()=>{
+
+    let op = operator.getAttribute("data-operation")
+
+    if(op=="C"){
+      primary="";
+      secondory="";
+      operation=undefined;
+      displayy();
+    }
+    if(secondory != ""){
+      console.log("computing");
+      compute();
+    }
+    if(primary == ""){
+      console.log("empty");
+      return;
+    };
+
+    secondory=primary;
+    primary="";
+    operation=op;
+    console.log("secondory value added");
+
+    
+
+
+  })
+})
+equalButton.addEventListener("click",()=>{
+  compute();
+  console.log("computing by equal sign");
+  displayy();
+})
+
+
+</script>
