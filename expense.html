@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main"></div>
+    <div class="users"></div>
+  </body>
+  <script>
+    let main = document.querySelector(".main");
+
+    let button = document.createElement("button");
+    button.value = "Add user";
+    button.className = "butt";
+    button.textContent = "Add people";
+    main.appendChild(button);
+    button.addEventListener("click", function addPeople() {
+      let users = document.createElement("div");
+      document.body.appendChild(users);
+
+      let name = document.createElement("input");
+      name.placeholder = "add Username";
+      users.appendChild(name);
+
+      let button = document.createElement("button");
+      button.value = "Add user";
+      button.className = "butt";
+      button.textContent = "Add  Expense";
+
+      let total = document.createElement("div");
+      total.textContent = "Expense";
+
+      users.appendChild(button);
+      users.appendChild(total);
+      button.addEventListener("click", () => {
+        let ExpenseName = document.createElement("input");
+        ExpenseName.placeholder = "Add expense name";
+        let value = document.createElement("input");
+        value.type = "number";
+        value.classList = "value";
+        value.placeholder = "Amount spend";
+        users.appendChild(ExpenseName);
+        users.appendChild(value);
+        value.addEventListener("input", () => {
+          let sum = 0;
+          let values = users.querySelectorAll(".value");
+          values.forEach((v) => {
+            c = parseFloat(v.value) || 0;
+            sum += c;
+            total.setAttribute("data-sum", sum);
+            total.textContent = `Total Expense  = ${sum}`;
+            let final = total.getAttribute("data-sum");
+            console.log(final);
+          });
+        });
+      });
+    });
+  </script>
+</html>
