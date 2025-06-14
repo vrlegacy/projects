@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" class="name" />
+    <input type="number" class="age" />
+    <button type="submit" class="sumbit">Submit</button>
+    <button type="submit" class="getItem">Get List</button>
+    <div class="showList"></div>
+  </body>
+  <script>
+    let array = JSON.parse(localStorage.getItem("userData")) || [];
+    let nameInput;
+    let ageInput;
+
+    let submitBtn = document.querySelector(".sumbit");
+    submitBtn.addEventListener("click", function addUser() {
+      nameInput = document.querySelector(".name").value;
+      ageInput = document.querySelector(".age").value;
+      if (nameInput && ageInput) {
+        array.push({ nameInput, ageInput });
+        localStorage.setItem("userData", JSON.stringify(array));
+      }
+    });
+    let showListDiv = document.querySelector(".showList");
+    showListDiv.innerHTML = "";
+    let getData = document.querySelector(".getItem");
+    getData.addEventListener("click", function funGetData() {
+      showListDiv.textContent = "";
+      let getLocal = JSON.parse(localStorage.getItem("userData")) || [];
+      getLocal.forEach((user, index) => {
+        let userName = user.nameInput;
+        let userAge = user.ageInput;
+
+        const userElement = document.createElement("div");
+        userElement.textContent = `User : ${user.nameInput}, ${
+          user.ageInput
+        }  ${index + 1}`;
+        const butt = document.createElement("button");
+        butt.textContent = "del";
+        showListDiv.appendChild(userElement);
+        showListDiv.appendChild(butt);
+        butt.addEventListener("click", () => {
+          butt.textContent = "delll";
+          getLocal.splice(index, 1);
+          localStorage.setItem("userData", JSON.stringify(getLocal));
+          funGetData();
+        });
+      });
+    });
+  </script>
+</html>
